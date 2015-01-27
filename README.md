@@ -1,1 +1,5 @@
 # Rollover
+
+```shell
+npm start
+```

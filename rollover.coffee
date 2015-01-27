@@ -52,4 +52,4 @@ if typeof define is 'function' and define.amd
 else if typeof module isnt 'undefined' and module.exports
   module.exports = Rollover
 else
-  global.Rollover or= Rollover
+  window.Rollover or= Rollover
