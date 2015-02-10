@@ -1,37 +1,44 @@
-do (root = this, factory = ->
+do (root = this, factory = ($) ->
   "use strict"
 
   class Rollover
 
     _defaults:
-      offStr: '_off'
-      onStr: '_on'
-      childOnly: true
-
-    _prepareSrcs: ->
-      @_srcOff = @$img.attr 'src'
-      @_srcOn = @_srcOff.replace @opts.offStr, @opts.onStr
+      strOff: '_off'
+      strOn: '_on'
+      onlyChild: true
+      over: false
 
     _preload: -> $('<img />').attr 'src', @_srcOn
 
-    constructor: (@el, opts) ->
+    _configure: (el, opts) ->
+      @$el = $(el)
       @opts = $.extend {}, @_defaults, opts
-      @$el = $(@el)
 
-      if @opts.childOnly
+      if @opts.onlyChild
         @$img = @$el.children 'img'
       else
-        @$img = $el.find 'img'
+        @$img = @$el.find 'img'
 
-      @_prepareSrcs()
+      @_srcOff = @$img.attr 'src'
+      @_srcOn = @_srcOff.replace @opts.strOff, @opts.strOn
+
+    constructor: (el, opts) ->
+      @_configure el, opts
       @_preload()
       @addEvents()
+      if @get('over') then @toOver()
+
+    set: (name, bool) -> @opts[name] = bool
+    get: (name) -> @opts[name]
 
     toOver: ->
+      @set 'over', true
       @$img.attr 'src', @_srcOn
       return this
 
     toNormal: ->
+      @set 'over', false
       @$img.attr 'src', @_srcOff
       return this
 

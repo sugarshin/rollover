@@ -7,45 +7,58 @@
   } else {
     root.ModuleName || (root.ModuleName = factory(root.jQuery));
   }
-})(this, function() {
+})(this, function($) {
   "use strict";
   var Rollover;
   Rollover = (function() {
     Rollover.prototype._defaults = {
-      offStr: '_off',
-      onStr: '_on',
-      childOnly: true
-    };
-
-    Rollover.prototype._prepareSrcs = function() {
-      this._srcOff = this.$img.attr('src');
-      return this._srcOn = this._srcOff.replace(this.opts.offStr, this.opts.onStr);
+      strOff: '_off',
+      strOn: '_on',
+      onlyChild: true,
+      over: false
     };
 
     Rollover.prototype._preload = function() {
       return $('<img />').attr('src', this._srcOn);
     };
 
-    function Rollover(_at_el, opts) {
-      this.el = _at_el;
+    Rollover.prototype._configure = function(el, opts) {
+      this.$el = $(el);
       this.opts = $.extend({}, this._defaults, opts);
-      this.$el = $(this.el);
-      if (this.opts.childOnly) {
+      if (this.opts.onlyChild) {
         this.$img = this.$el.children('img');
       } else {
-        this.$img = $el.find('img');
+        this.$img = this.$el.find('img');
       }
-      this._prepareSrcs();
+      this._srcOff = this.$img.attr('src');
+      return this._srcOn = this._srcOff.replace(this.opts.strOff, this.opts.strOn);
+    };
+
+    function Rollover(el, opts) {
+      this._configure(el, opts);
       this._preload();
       this.addEvents();
+      if (this.get('over')) {
+        this.toOver();
+      }
     }
 
+    Rollover.prototype.set = function(name, bool) {
+      return this.opts[name] = bool;
+    };
+
+    Rollover.prototype.get = function(name) {
+      return this.opts[name];
+    };
+
     Rollover.prototype.toOver = function() {
+      this.set('over', true);
       this.$img.attr('src', this._srcOn);
       return this;
     };
 
     Rollover.prototype.toNormal = function() {
+      this.set('over', false);
       this.$img.attr('src', this._srcOff);
       return this;
     };
