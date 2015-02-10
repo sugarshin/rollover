@@ -1,55 +1,58 @@
-$ = require 'jquery'
-
-class Rollover
+do (root = this, factory = ->
   "use strict"
 
-  _defaults:
-    offStr: '_off'
-    onStr: '_on'
-    childOnly: true
+  class Rollover
 
-  _prepareSrcs: ->
-    @_srcOff = @$img.attr 'src'
-    @_srcOn = @_srcOff.replace @opts.offStr, @opts.onStr
+    _defaults:
+      offStr: '_off'
+      onStr: '_on'
+      childOnly: true
 
-  _preload: -> $('<img />').attr 'src', @_srcOn
+    _prepareSrcs: ->
+      @_srcOff = @$img.attr 'src'
+      @_srcOn = @_srcOff.replace @opts.offStr, @opts.onStr
 
-  constructor: (@el, opts) ->
-    @opts = $.extend {}, @_defaults, opts
-    @$el = $(@el)
+    _preload: -> $('<img />').attr 'src', @_srcOn
 
-    if @opts.childOnly
-      @$img = @$el.children 'img'
-    else
-      @$img = $el.find 'img'
+    constructor: (@el, opts) ->
+      @opts = $.extend {}, @_defaults, opts
+      @$el = $(@el)
 
-    @_prepareSrcs()
-    @_preload()
-    @addEvents()
+      if @opts.childOnly
+        @$img = @$el.children 'img'
+      else
+        @$img = $el.find 'img'
 
-  toOver: ->
-    @$img.attr 'src', @_srcOn
-    return this
+      @_prepareSrcs()
+      @_preload()
+      @addEvents()
 
-  toNormal: ->
-    @$img.attr 'src', @_srcOff
-    return this
+    toOver: ->
+      @$img.attr 'src', @_srcOn
+      return this
 
-  addEvents: ->
-    @$el.on 'mouseenter.rollover', => @toOver()
-    @$el.on 'mouseleave.rollover', => @toNormal()
-    return this
+    toNormal: ->
+      @$img.attr 'src', @_srcOff
+      return this
 
-  rmEvents: ->
-    @$el.off 'mouseenter.rollover'
-    @$el.off 'mouseleave.rollover'
-    return this
+    addEvents: ->
+      @$el.on 'mouseenter.rollover', => @toOver()
+      @$el.on 'mouseleave.rollover', => @toNormal()
+      return this
 
-  destroy: -> @$el.remove()
+    rmEvents: ->
+      @$el.off 'mouseenter.rollover'
+      @$el.off 'mouseleave.rollover'
+      return this
 
-if typeof define is 'function' and define.amd
-  define -> Rollover
-else if typeof module isnt 'undefined' and module.exports
-  module.exports = Rollover
-else
-  window.Rollover or= Rollover
+    destroy: -> @$el.remove()
+
+  return
+) ->
+  if typeof define is 'function' and define.amd
+    define ['$'], factory
+  else if typeof module isnt 'undefined' and module.exports
+    module.exports = factory require('jquery')
+  else
+    root.ModuleName or= factory root.jQuery
+  return
