@@ -29,7 +29,7 @@ do (root = this, factory = ($) ->
       @addEvents()
       if @get('over') then @toOver()
 
-    set: (name, bool) -> @opts[name] = bool
+    set: (name, val) -> @opts[name] = val
     get: (name) -> @opts[name]
 
     toOver: ->
@@ -54,12 +54,11 @@ do (root = this, factory = ($) ->
 
     destroy: -> @$el.remove()
 
-  return
 ) ->
   if typeof define is 'function' and define.amd
     define ['$'], factory
-  else if typeof module isnt 'undefined' and module.exports
+  else if typeof exports is 'object'
     module.exports = factory require('jquery')
   else
-    root.ModuleName or= factory root.jQuery
+    root.Rollover or= factory root.jQuery
   return

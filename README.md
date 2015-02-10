@@ -11,7 +11,7 @@ npm i -S sugarshin/rollover
 ```coffeescript
 Rollover = require 'rollover'
 
-new Rollover $('.js-rollover')
+new Rollover element
 ```
 
 ## Contributing

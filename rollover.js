@@ -2,15 +2,15 @@
 (function(root, factory) {
   if (typeof define === 'function' && define.amd) {
     define(['$'], factory);
-  } else if (typeof module !== 'undefined' && module.exports) {
+  } else if (typeof exports === 'object') {
     module.exports = factory(require('jquery'));
   } else {
-    root.ModuleName || (root.ModuleName = factory(root.jQuery));
+    root.Rollover || (root.Rollover = factory(root.jQuery));
   }
 })(this, function($) {
   "use strict";
   var Rollover;
-  Rollover = (function() {
+  return Rollover = (function() {
     Rollover.prototype._defaults = {
       strOff: '_off',
       strOn: '_on',
@@ -43,8 +43,8 @@
       }
     }
 
-    Rollover.prototype.set = function(name, bool) {
-      return this.opts[name] = bool;
+    Rollover.prototype.set = function(name, val) {
+      return this.opts[name] = val;
     };
 
     Rollover.prototype.get = function(name) {
