@@ -55,9 +55,7 @@ do (root = this, factory = ($) ->
     destroy: -> @$el.remove()
 
 ) ->
-  if typeof define is 'function' and define.amd
-    define ['$'], factory
-  else if typeof exports is 'object'
+  if typeof module is 'object' and typeof module.exports is 'object'
     module.exports = factory require('jquery')
   else
     root.Rollover or= factory root.jQuery

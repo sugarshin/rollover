@@ -1,4 +1,6 @@
-# Rollover [![Build Status](https://travis-ci.org/sugarshin/rollover.svg?branch=master)](https://travis-ci.org/sugarshin/rollover)
+# Rollover
+
+[![Build Status](https://travis-ci.org/sugarshin/rollover.svg?branch=master)](https://travis-ci.org/sugarshin/rollover)
 
 Rollover
 
@@ -12,6 +14,16 @@ npm i -S sugarshin/rollover
 Rollover = require 'rollover'
 
 new Rollover element
+```
+
+or
+
+```html
+<script src="jquery.js"></script>
+<script src="rollover.js"></script>
+<script>
+  new Rollover(element);
+</script>
 ```
 
 ## Contributing
